@@ -24,4 +24,6 @@ fn main() {
                       "a salt cellar".to_string()]);
 
     show(table);
+    // 「value borrowed here after move」で怒られる
+    // assert_eq!(table["Gesualdo"][0], "many madrigals");
 }
