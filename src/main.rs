@@ -13,6 +13,13 @@ fn show(table: &Table) {
     }
 }
 
+fn sort_works(table: &mut Table) {
+    for (_artist, works) in table {
+        // sortは破壊的な操作であるため可変参照（mutable reference）の&mut Table型で受け取る必要がある
+        works.sort();
+    }
+}
+
 fn main() {
     let mut table = Table::new();
     table.insert("Gesualdo".to_string(),
@@ -28,4 +35,7 @@ fn main() {
     show(&table);
     // 参照渡しをしなかった場合、関数側に所有権が移って「value borrowed here after move」で怒られる
     assert_eq!(table["Gesualdo"][0], "many madrigals");
+
+    sort_works(&mut table);
+    assert_eq!(table["Gesualdo"][0], "Tenebrae Responsoria"); // sortでworksの順序が変更済み
 }
