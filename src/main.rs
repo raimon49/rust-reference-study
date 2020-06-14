@@ -20,6 +20,27 @@ fn sort_works(table: &mut Table) {
     }
 }
 
+fn init_ref() {
+    let x = 10;
+    let r = &x; // &xはxへの共有参照
+    assert!(*r == 10); // 明示的にrを参照解決
+
+    let mut y = 32;
+    let m = &mut y; // &mut yはyへの可変参照
+    *m += 32; // 明示的にmを参照解決してyの値を変更
+    assert!(*m == 64);
+
+    struct Anime {
+        name: &'static str,
+        bachdel_pass: bool
+    };
+    let aria = Anime{ name: "Aria: The Animation", bachdel_pass: true };
+    let anime_ref = &aria;
+    assert_eq!(anime_ref.name, "Aria: The Animation");
+    assert_eq!(anime_ref.bachdel_pass, true);
+    assert_eq!((*anime_ref).name, "Aria: The Animation") // (*anime_ref) を明示しなくても暗黙的に左オペランドは参照解決される
+}
+
 fn main() {
     let mut table = Table::new();
     table.insert("Gesualdo".to_string(),
@@ -38,4 +59,6 @@ fn main() {
 
     sort_works(&mut table);
     assert_eq!(table["Gesualdo"][0], "Tenebrae Responsoria"); // sortでworksの順序が変更済み
+
+    init_ref();
 }
