@@ -41,6 +41,22 @@ fn init_ref() {
     assert_eq!((*anime_ref).name, "Aria: The Animation") // (*anime_ref) を明示しなくても暗黙的に左オペランドは参照解決される
 }
 
+fn assignment_ref() {
+    let x = 10;
+    let y = 20;
+    let mut r = &x;
+    r = &y; // 参照は代入されると新しい値を指すようになる（C++では再代入できない）
+
+    assert!(*r == 10 || *r == 20);
+
+    struct Point { x: i32, y: i32 };
+    let point = Point { x: 1000, y: 729 };
+    let r: &Point = &point;
+    let rr: &&Point = &r;
+    let rrr: &&&Point = &rr; // Rustでは参照の参照は許可されている
+    assert_eq!(rrr.y, 729);  // 何段でも暗黙的に参照解決されて値を取り出して比較される
+}
+
 fn main() {
     let mut table = Table::new();
     table.insert("Gesualdo".to_string(),
@@ -61,4 +77,6 @@ fn main() {
     assert_eq!(table["Gesualdo"][0], "Tenebrae Responsoria"); // sortでworksの順序が変更済み
 
     init_ref();
+
+    assignment_ref();
 }
