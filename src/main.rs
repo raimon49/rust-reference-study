@@ -57,6 +57,25 @@ fn assignment_ref() {
     assert_eq!(rrr.y, 729);  // 何段でも暗黙的に参照解決されて値を取り出して比較される
 }
 
+fn compare_ref() {
+    let x = 10;
+    let y = 10;
+
+    let rx = &x;
+    let ry = &y;
+
+    let rrx = &rx;
+    let rry = &ry;
+
+    // .演算子と同様に、比較演算子も、連鎖する参照を何段でも見通して解決できる
+    assert!(rrx <= rry);
+    assert!(rrx == rry);
+
+    // 参照先の値を取り出しての比較でなく同じメモリを指しているか比較したい時はstd::ptr::eqを使う
+    assert!(rx == ry);
+    assert!(!std::ptr::eq(rx, ry)); // 値は同じだが別のメモリ上にあるため等しくならない
+}
+
 fn main() {
     let mut table = Table::new();
     table.insert("Gesualdo".to_string(),
@@ -79,4 +98,6 @@ fn main() {
     init_ref();
 
     assignment_ref();
+
+    compare_ref();
 }
