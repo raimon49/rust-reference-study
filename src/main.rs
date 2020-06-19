@@ -76,6 +76,17 @@ fn compare_ref() {
     assert!(!std::ptr::eq(rx, ry)); // 値は同じだが別のメモリ上にあるため等しくならない
 }
 
+fn factorial_ref() {
+    fn factorial(n: usize) -> usize {
+        (1..n+1).fold(1, |a, b|a * b)
+    }
+
+    let r = &factorial(6);
+
+    // 数値演算子は、参照を一段見通すことができる
+    assert_eq!(r + &1009, 1729);
+}
+
 fn main() {
     let mut table = Table::new();
     table.insert("Gesualdo".to_string(),
@@ -100,4 +111,6 @@ fn main() {
     assignment_ref();
 
     compare_ref();
+
+    factorial_ref();
 }
