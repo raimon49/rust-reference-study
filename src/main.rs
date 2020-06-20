@@ -45,6 +45,7 @@ fn assignment_ref() {
     let x = 10;
     let y = 20;
     let mut r = &x;
+    assert_eq!(*r, 10);
     r = &y; // 参照は代入されると新しい値を指すようになる（C++では再代入できない）
 
     assert!(*r == 10 || *r == 20);
@@ -54,7 +55,8 @@ fn assignment_ref() {
     let r: &Point = &point;
     let rr: &&Point = &r;
     let rrr: &&&Point = &rr; // Rustでは参照の参照は許可されている
-    assert_eq!(rrr.y, 729);  // 何段でも暗黙的に参照解決されて値を取り出して比較される
+    assert_eq!(rrr.x, 1000); // 何段でも暗黙的に参照解決されて値を取り出して比較される
+    assert_eq!(rrr.y, 729);
 }
 
 fn compare_ref() {
