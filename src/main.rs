@@ -89,6 +89,16 @@ fn factorial_ref() {
     assert_eq!(r + &1009, 1729);
 }
 
+fn lifetime_ref() {
+    {
+        let x = 1;
+        {
+            let r = &x; // 参照rが借用先xの生存期間に包含している時、コンパイラはエラーを起こさない
+            assert_eq!(*r, 1);
+        }
+    }
+}
+
 fn main() {
     let mut table = Table::new();
     table.insert("Gesualdo".to_string(),
@@ -115,4 +125,6 @@ fn main() {
     compare_ref();
 
     factorial_ref();
+
+    lifetime_ref();
 }
