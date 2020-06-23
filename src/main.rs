@@ -92,9 +92,13 @@ fn factorial_ref() {
 fn lifetime_ref() {
     {
         let x = 1;
+        let v = vec![1, 2, 3];
         {
             let r = &x; // 参照rが借用先xの生存期間に包含している時、コンパイラはエラーを起こさない
             assert_eq!(*r, 1);
+
+            let vr = &v[1];
+            assert_eq!(*vr, 2);
         }
     }
 }
