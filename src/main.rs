@@ -104,6 +104,15 @@ fn lifetime_ref() {
     }
 }
 
+static mut STASH: &i32 = &10; // static変数は初期化されなければコンパイルできない
+static WORTH_POINTING_AT: i32 = 1000;
+
+fn f(p: &'static i32) {
+    unsafe {
+        STASH = p;
+    }
+}
+
 fn main() {
     let mut table = Table::new();
     table.insert("Gesualdo".to_string(),
@@ -132,4 +141,6 @@ fn main() {
     factorial_ref();
 
     lifetime_ref();
+
+    f(&WORTH_POINTING_AT);
 }
