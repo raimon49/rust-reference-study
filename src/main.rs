@@ -107,8 +107,9 @@ fn lifetime_ref() {
 static mut STASH: &i32 = &10; // static変数は初期化されなければコンパイルできない
 static WORTH_POINTING_AT: i32 = 1000;
 
+// 関数fは'static（tick-static生存期間）の参照を受け取るとシグネチャで宣言
 fn f(p: &'static i32) {
-    unsafe {
+    unsafe { // 可変なstatic変数はスレッドセーフでないためunsafeブロックの中でしかアクセスできない
         STASH = p;
     }
 }
