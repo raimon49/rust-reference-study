@@ -153,4 +153,8 @@ fn main() {
     lifetime_ref();
 
     f(&WORTH_POINTING_AT);
+
+    let parabola = [9, 4, 1, 0, 1, 4, 9];
+    let s = smallest(&parabola); // もし返り値を入れる変数sが親スコープに居るとコンパイラが生存期間のエラーを投げる
+    assert_eq!(*s, 0);
 }
