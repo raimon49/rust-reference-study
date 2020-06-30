@@ -123,6 +123,26 @@ fn smallest(v: &[i32]) -> &i32 {
     s
 }
 
+fn splite_lifetime_ref() {
+    // コンパイラがxとyのスコープを見付けられるようx, yそれぞれに独立した生存期間を指定して定義
+    struct S<'a, 'b> {
+        x: &'a i32,
+        y: &'b i32
+    }
+
+    let x = 10;
+    let _r; // xの参照されるスコープ
+    {
+        let y = 20;
+        {
+            let _sy; // yの参照されるスコープ
+            let s = S { x: &x, y: &y };
+            _r = s.x;
+            _sy = s.y;
+        }
+    }
+}
+
 fn main() {
     let mut table = Table::new();
     table.insert("Gesualdo".to_string(),
@@ -157,4 +177,6 @@ fn main() {
     let parabola = [9, 4, 1, 0, 1, 4, 9];
     let s = smallest(&parabola); // もし返り値を入れる変数sが親スコープに居るとコンパイラが生存期間のエラーを投げる
     assert_eq!(*s, 0);
+
+    splite_lifetime_ref();
 }
