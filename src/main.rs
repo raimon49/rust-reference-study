@@ -143,6 +143,23 @@ fn splite_lifetime_ref() {
     }
 }
 
+struct StringTable {
+    elements: Vec<String>,
+}
+
+impl StringTable {
+    // このメソッドのシグネチャは次の定義が省略されているがコンパイラが仮定して推論する
+    // fn find_by_prefx<'a, 'b>(&'a self, prefix: &'b str) -> Option<&'a String> {
+    fn find_by_prefx(&self, prefix: &str) -> Option<&String> {
+        for i in 0 .. self.elements.len() {
+            if self.elements[i].starts_with(prefix) {
+                return Some(&self.elements[i]);
+            }
+        }
+        None
+    }
+}
+
 fn main() {
     let mut table = Table::new();
     table.insert("Gesualdo".to_string(),
@@ -179,4 +196,7 @@ fn main() {
     assert_eq!(*s, 0);
 
     splite_lifetime_ref();
+
+    let t = StringTable { elements: vec!["foo".to_string(), "bar".to_string(), "buzz".to_string()] };
+    t.find_by_prefx("ba");
 }
