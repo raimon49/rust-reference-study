@@ -160,6 +160,23 @@ impl StringTable {
     }
 }
 
+fn const_ref() {
+    let mut x = 42; // 可変なi32値
+    let p = &x;     // i32への共有参照
+
+    // 以下の行を有効にするとコンパイルエラー: xはpに借用されているので代入できない
+    // x += 1;
+
+    assert_eq!(*p, 42); // xが変更されていない時だけここをコンパイルできる
+
+    // Cのconstポインタだと上記のようなコードはコンパイルが可能
+    // int x = 42;
+    // const int *p = &x;
+    // assert(*p == 42);
+    // x++; // constでないxは直接変更できてしまう
+    // assert(*p == 43);
+}
+
 fn main() {
     let mut table = Table::new();
     table.insert("Gesualdo".to_string(),
@@ -199,4 +216,6 @@ fn main() {
 
     let t = StringTable { elements: vec!["foo".to_string(), "bar".to_string(), "buzz".to_string()] };
     t.find_by_prefx("ba");
+
+    const_ref();
 }
