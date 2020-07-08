@@ -120,7 +120,7 @@ fn smallest(v: &[i32]) -> &i32 {
         if *r < *s { s = r; }
     }
 
-    s
+    s // ブロックの最後にセミコロンが無いため返り値となる
 }
 
 fn splite_lifetime_ref() {
